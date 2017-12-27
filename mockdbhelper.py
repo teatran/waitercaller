@@ -1,0 +1,41 @@
+"""This module is only used for testing.
+"""
+USERS = [{'email': 'test@examplemail.com',
+          'salt': '8Fb23mMNHD5Zb8pr2qWA3PE9bH0=',
+          'hashed': "1736f83698df3f8153c1fbd6ce2840f8aace4f200771a46672635374073cc876cf0aa6a31f780e576578f791b5555b50df46303f0c3a7f2d21f91aa1429ac22e"}, ]
+
+TABLES = [{'_id': '1', 'number': 'abc', 'owner': 'test@examplemail.com', 'url': 'mockurl'}]
+
+
+class MockDbHelper:
+    
+    def get_user(self, email):
+        user = [x for x in USERS if x.get('email') == email] 
+        if user:
+            return user[0]
+        return None
+
+    def add_user(self, email, salt, hashed):
+        USERS.append({'email': email, 'salt': salt, 'hashed': hashed})
+        
+
+    def add_table(self, unique_id, owner):
+        TABLES.append({'_id': unique_id, 'number': unique_id, 'owner': owner})
+        return unique_id
+
+    def update_table(self, _id, url):
+        for table in TABLES:
+            if table.get('_id') == _id:
+                table['url'] = url
+                break
+
+    def get_tables(self, owner_id):
+        return TABLES
+
+    def delete_table(self, table_id):
+        print TABLES
+        for i, table in enumerate(TABLES):
+            if table.get('_id') == table_id:
+                del TABLES[i]
+                break
+            
